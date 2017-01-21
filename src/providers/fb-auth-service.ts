@@ -42,18 +42,6 @@ export class FBAuthService {
             success => this.validateWithServer(success.access_token),
             error => error
         );
-    /*.then(
-     token => this.authData.setUser(token),
-     error => error
-     )*/
-
-
-    /* return this.platform.ready().then(() => {
-     return this.facebookLogin().then(
-     success => this.validateWithServer(success.access_token),
-     error => alert(error)
-     );
-     });*/
   }
 
   private validateWithServer(token: string): Promise<any> {
