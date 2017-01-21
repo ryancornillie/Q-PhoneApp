@@ -12,7 +12,7 @@ export class UserData {
   HAS_LOGGED_IN = 'hasLoggedIn';
   HAS_SEEN_TUTORIAL = 'hasSeenTutorial';
 
-  constructor(public events: Events,
+  constructor(public events: Events,gs
               public storage: Storage,
               private FBAuth: FBAuthService) {
   }
