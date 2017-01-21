@@ -18,7 +18,7 @@ export class UserData {
   }
 
 
-  login(username: string) {
+  login() {
 
 
     this.FBAuth.login().then(
