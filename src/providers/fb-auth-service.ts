@@ -61,12 +61,14 @@ export class FBAuthService {
 
     console.log('validate server');
 
+    let data = {token: token};
+
     return new Promise<any>((resolve, reject) => {
-      this.http.get(FBAuthService.AUTH_ROUTE + '/' + token).then(
+      this.http.post(FBAuthService.AUTH_ROUTE, data).then(
           res => resolve(res),
           error => reject(error)
       );
-    });
+    })
   }
 
   private facebookLogin(): Promise<{access_token: string}> {
