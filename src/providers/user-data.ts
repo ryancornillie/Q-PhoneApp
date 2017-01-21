@@ -8,64 +8,79 @@ import {FBAuthService} from './fb-auth-service';
 
 @Injectable()
 export class UserData {
-  _favorites: string[] = [];
-  HAS_LOGGED_IN = 'hasLoggedIn';
-  HAS_SEEN_TUTORIAL = 'hasSeenTutorial';
+    _favorites: string[] = [];
+    HAS_LOGGED_IN = 'hasLoggedIn';
+    HAS_SEEN_TUTORIAL = 'hasSeenTutorial';
 
-  constructor(public events: Events,
-              public storage: Storage,
-              private FBAuth: FBAuthService) {
-  }
-
-
-  login() {
+    constructor(public events: Events,
+                public storage: Storage,
+                private FBAuth: FBAuthService) {
+    }
 
 
-    this.FBAuth.login().then(
-        (token) => {
+    login() {
 
-          console.log('*****TOKEN: ' + token);
 
-          this.storage.set('auth_token', token);
+        this.FBAuth.login().then(
+            (token) => {
 
-          let data = jwt(token);
+                console.log('*****TOKEN: ' + token);
 
-          console.dir(data);
+                this.storage.set('auth_token', token);
 
-          this.storage.set(this.HAS_LOGGED_IN, true);
-          //should get user data from backend
-          this.setUsername('needREalOne');
-          //this.events.publish('user:login');
-          console.log('*****TOKEN: ' + JSON.stringify(token));
-        },
-        (err) => {
-          console.log(JSON.stringify(err));
-        }
-    );
+                let data = jwt(token);
 
-  };
+                console.dir(data);
 
-  logout() {
-    this.storage.remove(this.HAS_LOGGED_IN);
-    this.storage.remove('username');
-    this.events.publish('user:logout');
-  };
+                this.storage.set(this.HAS_LOGGED_IN, true);
 
-  setUsername(username: string) {
-    this.storage.set('username', username);
-  };
+                this.setUserData(data);
+                //this.events.publish('user:login');
+            },
+            (err) => {
+                console.log(JSON.stringify(err));
+            }
+        );
 
-  getUsername() {
-    return this.storage.get('username').then((value) => {
-      return value;
-    });
-  };
+    };
 
-  // return a promise
-  hasLoggedIn() {
-    return this.storage.get(this.HAS_LOGGED_IN).then((value) => {
-      return value === true;
-    });
-  };
+    logout() {
+        this.storage.remove(this.HAS_LOGGED_IN);
+        this.storage.remove('username');
+        this.events.publish('user:logout');
+    };
+
+    setUserData(data) {
+        this.storage.set('picture_url', data.picture_url);
+        this.storage.set('name', data.name);
+        this.storage.set('email', data.email);
+    };
+
+    getName() {
+        console.log('call');
+        return this.storage.get('name').then((value) => {
+            console.log('name: ' + value);
+            return value;
+        });
+    };
+
+    getEmail() {
+        return this.storage.get('email').then((value) => {
+            return value;
+        });
+    };
+
+    getPictureUrl() {
+        return this.storage.get('picture_url').then((value) => {
+            return value;
+        });
+    };
+
+    // return a promise
+    hasLoggedIn() {
+        return this.storage.get(this.HAS_LOGGED_IN).then((value) => {
+            return value === true;
+        });
+    };
 
 }
