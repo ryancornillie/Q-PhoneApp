@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
-
-import { HttpClient } from '../../providers/http-client';
 import { NavController } from 'ionic-angular';
+import { Office } from '../../models/Office';
 
-import {UserData} from '../../providers/user-data';
+import { UserData } from '../../providers/user-data';
+import { DataProvider} from '../../providers/data-provider';
 
 
 @Component({
@@ -12,11 +12,11 @@ import {UserData} from '../../providers/user-data';
 })
 export class HomePage {
 
-<<<<<<< HEAD
-  uName: String;
-  pictureUrl: String;
+  uName: string;
+  pictureUrl: string;
+  offices: Office[];
 
-  constructor(public navCtrl: NavController, public userData: UserData) {}
+  constructor(public navCtrl: NavController, public userData: UserData, public dataProvider: DataProvider) {}
 
   ionViewDidLoad() {
 
@@ -33,6 +33,14 @@ export class HomePage {
     this.userData.getPictureUrl().then(
         (value) => {
           this.pictureUrl = value;
+          return true;
+        },
+        err => err
+    );
+
+    this.dataProvider.getOffices().then(
+        (success) => {
+          this.offices = success;
           return true;
         },
         err => err
