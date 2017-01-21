@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 
+import { HttpClient } from '../../providers/http-client';
 import { NavController } from 'ionic-angular';
 
 @Component({
@@ -8,8 +9,10 @@ import { NavController } from 'ionic-angular';
 })
 export class HomePage {
 
-  constructor(public navCtrl: NavController) {
+
+  constructor(public navCtrl: NavController, public http: HttpClient) {
 
   }
+
 
 }

@@ -20,7 +20,7 @@ import {UserData} from '../providers/user-data';
     ContactPage,
     HomePage,
     TabsPage,
-    LoginPage
+    LoginPage,
   ],
   imports: [
     IonicModule.forRoot(MyApp)
@@ -32,7 +32,7 @@ import {UserData} from '../providers/user-data';
     ContactPage,
     HomePage,
     TabsPage,
-    LoginPage
+    LoginPage,
   ],
   providers: [UserData, Storage, FBAuthService, HttpClient, {provide: ErrorHandler, useClass: IonicErrorHandler}]
 
