@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 
+import { HttpClient } from '../../providers/http-client';
 import { NavController } from 'ionic-angular';
 
 import {UserData} from '../../providers/user-data';
@@ -11,6 +12,7 @@ import {UserData} from '../../providers/user-data';
 })
 export class HomePage {
 
+<<<<<<< HEAD
   uName: String;
   pictureUrl: String;
 
@@ -38,5 +40,6 @@ export class HomePage {
 
     console.log('done');
   }
+
 
 }
