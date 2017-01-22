@@ -1,6 +1,5 @@
 import {Injectable} from '@angular/core';
 
-import {Events} from 'ionic-angular';
 import {Storage} from '@ionic/storage';
 import * as jwt from 'jwt-decode';
 
@@ -12,74 +11,80 @@ export class UserData {
     HAS_LOGGED_IN = 'hasLoggedIn';
     HAS_SEEN_TUTORIAL = 'hasSeenTutorial';
 
-    constructor(public events: Events,
-                public storage: Storage,
+    constructor(public storage: Storage,
                 private FBAuth: FBAuthService) {
     }
 
 
-    login() {
+    login(): Promise<any> {
 
-
-        this.FBAuth.login().then(
-            (token) => {
-
-                console.log('*****TOKEN: ' + token);
-
-                this.storage.set('auth_token', token);
-
-                let data = jwt(token);
-
-                console.dir(data);
-
-                this.storage.set(this.HAS_LOGGED_IN, true);
-
-                this.setUserData(data);
-                //this.events.publish('user:login');
-            },
+        return this.FBAuth.login().then(
+            token => this.setUserData(token),
+            err => err
+        ).then(
+            (success) => true,
             (err) => {
-                console.log(JSON.stringify(err));
+                console.log('err: ' + err);
+                return err;
             }
         );
-
     };
 
-    logout() {
-        this.storage.remove(this.HAS_LOGGED_IN);
-        this.storage.remove('username');
-        this.events.publish('user:logout');
+    logout(): Promise<any> {
+        let promises = [
+            this.storage.set(this.HAS_LOGGED_IN, false),
+            this.storage.remove('auth_token'),
+            this.storage.remove('picture_url'),
+            this.storage.remove('name'),
+            this.storage.remove('email')
+        ];
+
+        return Promise.all(promises).then(values => {
+            console.log(values);
+        }, reason => {
+            console.log(reason)
+        });
     };
 
-    setUserData(data) {
-        this.storage.set('picture_url', data.picture_url);
-        this.storage.set('name', data.name);
-        this.storage.set('email', data.email);
+    setUserData(token) {
+        let data = jwt(token);
+
+        let promises = [
+            this.storage.set('auth_token', token),
+            this.storage.set(this.HAS_LOGGED_IN, true),
+            this.storage.set('picture_url', data.picture_url),
+            this.storage.set('name', data.name),
+            this.storage.set('email', data.email),
+            this.storage.set('id', data._id)
+        ];
+
+        return Promise.all(promises).then(values => {
+            console.log(values);
+        }, reason => {
+            console.log(reason)
+        });
     };
 
     getName() {
-        console.log('call');
-        return this.storage.get('name').then((value) => {
-            console.log('name: ' + value);
-            return value;
-        });
+        return this.storage.get('name').then(value => value);
     };
 
     getEmail() {
-        return this.storage.get('email').then((value) => {
-            return value;
-        });
+        return this.storage.get('email').then(value => value);
     };
 
     getPictureUrl() {
-        return this.storage.get('picture_url').then((value) => {
-            return value;
-        });
+        return this.storage.get('picture_url').then(value => value);
     };
+
+    getUserId() {
+        return this.storage.get('id').then(value => value);
+    }
 
     // return a promise
     hasLoggedIn() {
         return this.storage.get(this.HAS_LOGGED_IN).then((value) => {
-            return value === true;
+            return (value === true);
         });
     };
 

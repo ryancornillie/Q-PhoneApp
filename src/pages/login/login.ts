@@ -1,30 +1,56 @@
-import { Component } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
-import { UserData } from '../../providers/user-data';
+import {Component} from '@angular/core';
+import {Events} from 'ionic-angular';
+import { NavController } from 'ionic-angular';
+import {UserData} from '../../providers/user-data';
+import {TabsPage} from '../tabs/tabs';
 
 /*
-  Generated class for the Login page.
+ Generated class for the Login page.
 
-  See http://ionicframework.com/docs/v2/components/#navigation for more info on
-  Ionic pages and navigation.
-*/
+ See http://ionicframework.com/docs/v2/components/#navigation for more info on
+ Ionic pages and navigation.
+ */
 @Component({
-  selector: 'page-login',
-  templateUrl: 'login.html'
+    selector: 'page-login',
+    templateUrl: 'login.html'
 })
 export class LoginPage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public userData: UserData) {}
 
+    constructor(
+        public userData: UserData,
+        public events: Events,
+        public navCtrl: NavController
+    ) {
+    }
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad LoginPage');
-  }
+    ionViewDidLoad() {
 
-  login() {
+        // Check if the user is logged in
+        this.userData.hasLoggedIn()
+            .then((hasLoggedIn) => {
+                console.log('loged in: ' + hasLoggedIn);
+                if (hasLoggedIn) {
+                    this.navCtrl.push(TabsPage);
+                } else {
+                    console.log('else!!');
+                }
+            });
+    }
 
-    this.userData.login();
+    login() {
 
-  }
+        this.userData.login().then(
+            (success) => {
+                console.log('succesffully logged in');
+                this.navCtrl.push(TabsPage);
+                return success;
+            },
+            (err) => {
+                console.log('err: ' + err);
+            }
+        );
+
+    }
 
 }
