@@ -38,10 +38,10 @@
             <br/>
 
             <button *ngIf="office.miniQueue.indexOf(userId) == -1" color="secondary" ion-button item-right medium full
-                    (click)="joinQueue(userId, office)">Join
+                    (click)="joinQueue(userId, office)" [disabled]="!active">Join
             </button>
             <button *ngIf="office.miniQueue.indexOf(userId) != -1" color="danger" ion-button item-right medium full
-                    (click)="leaveQueue(userId, office)">Leave
+                    (click)="leaveQueue(userId, office)" [disabled]="!active">Leave
             </button>
 
         </ion-card-content>
