@@ -12,6 +12,7 @@ class Office {
     public description: string;
     public sessions: Session[];
     public queue: User[];
+    public miniQueue: string[];
     public createdAt: Date;
     public updatedAt: Date;
 
@@ -21,6 +22,7 @@ class Office {
         this.description = office['description'];
         this.sessions = office['session'];
         this.queue = office['queue'];
+        this.miniQueue = office['miniQueue'];
         this.createdAt = office['createdAt'];
         this.updatedAt = office['updatedAt'];
     }

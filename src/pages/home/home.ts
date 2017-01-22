@@ -58,6 +58,7 @@ export class HomePage {
             this.dataProvider.getOffices().then(
                 (success) => {
                     this.offices = success;
+                    console.log(JSON.stringify(success));
                 },
                 err => err
             )
@@ -70,13 +71,15 @@ export class HomePage {
 
     leaveQueue(userId, office) {
 
-        let index = office.queue.indexOf(userId);
+        let index = office.miniQueue.indexOf(userId);
 
         if (index > -1) {
 
             this.dataProvider.leaveQueue(userId, office._id).then(
                 (success) => {
                     office.queue.splice(index, 1);
+                    office.miniQueue.splice(index, 1);
+
                     office.joined = 0;
                 },
                 err => err
@@ -92,6 +95,7 @@ export class HomePage {
             (success) => {
                 office.joined = 1;
                 office.queue.push(userId);
+                office.miniQueue.push(userId);
             },
             err => err
         );
