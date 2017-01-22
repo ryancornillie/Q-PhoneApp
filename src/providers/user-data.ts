@@ -54,12 +54,20 @@ export class UserData {
         this.storage.set('picture_url', data.picture_url);
         this.storage.set('name', data.name);
         this.storage.set('email', data.email);
+        this.storage.set('id', data._id);
+        console.log('data', data);
     };
 
     getName() {
         console.log('call');
         return this.storage.get('name').then((value) => {
             console.log('name: ' + value);
+            return value;
+        });
+    };
+
+    getUserId() {
+        return this.storage.get('id').then((value) => {
             return value;
         });
     };

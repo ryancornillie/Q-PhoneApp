@@ -1,30 +1,43 @@
 <ion-header>
   <ion-navbar>
-    <ion-title>Offices</ion-title>
+    <ion-title>Office Hours</ion-title>
   </ion-navbar>
 </ion-header>
 
 <ion-content padding>
 
-    <ion-item>
-        <h3>Hello {{uName}}</h3>
+    <ion-card style="background-color: white">
+        <ion-item style="background-color: white">
+        <span>Hello {{uName}}!</span>
         <ion-avatar item-left>
-            <img [src]="pictureUrl">
+            <img [src]="pictureUrl"/>
         </ion-avatar>
-    </ion-item>
+        </ion-item>
+    </ion-card>
 
 
     <ion-card *ngFor='let office of offices'>
-        <ion-card-content>
-            <ion-card-title>
+        <ion-card-content class="align-center">
+            <ion-card-title class="bold">
                 {{office.name}}
             </ion-card-title>
             <h2>{{office.location}}</h2>
             <p>{{office.description}}</p>
-            <ion-item>
-                <button ion-button item-left>Like</button>
-                <button ion-button item-right>Comment</button>
-            </ion-item>
+            <div *ngFor="let session of office.sessions">
+                <span class="bold">{{session.day}}: {{session.start_time}}</span>
+            </div>
+            <div *ngIf="!office.joined">
+                <p>Number Waiting: {{office.queue.length}}</p>
+            </div>
+            <div *ngIf="office.joined">
+                <span *ngIf="office.queue.indexOf(userId) >= 0" >{{office.queue.indexOf(userId)}} students in front of you.</span>
+            </div>
+
+            <br/>
+
+            <button *ngIf="office.queue.indexOf(userId) == -1" color="secondary" ion-button item-right medium full (click)="joinQueue(userId, office)">Join</button>
+            <button *ngIf="office.queue.indexOf(userId) != -1" color="danger" ion-button item-right medium full (click)="leaveQueue(userId, office)">Leave</button>
+
         </ion-card-content>
     </ion-card>
 

@@ -22,7 +22,23 @@ export class HttpClient {
      }
      */
 
-    post(url: string, data: Object): Promise<any> {
+
+    post(url: string, data: Object) {
+
+        return this.sendData(url, data, 'POST');
+    }
+
+    patch(url: string, data: Object) {
+
+        return this.sendData(url, data, 'PATCH');
+    }
+
+    delete(url: string, data: Object) {
+
+        return this.sendData(url, data, 'DELETE');
+    }
+
+    sendData(url: string, data: Object, action: string): Promise<any> {
 
         let headers = new Headers();
 
@@ -30,7 +46,7 @@ export class HttpClient {
         headers.append('Content-type', 'application/json');
 
         let requestInit: RequestInit = {
-            method: 'POST',
+            method: action,
             body: JSON.stringify(data),
             headers: headers
         };
@@ -44,6 +60,7 @@ export class HttpClient {
             error => error
         );
     }
+
 
     get(url: string): Promise < any > {
 
