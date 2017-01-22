@@ -1,9 +1,9 @@
-import { Component } from '@angular/core';
-import { NavController } from 'ionic-angular';
-import { Office } from '../../models/Office';
+import {Component} from '@angular/core';
 
-import { UserData } from '../../providers/user-data';
-import { DataProvider} from '../../providers/data-provider';
+import {Office} from '../../models/Office';
+
+import {UserData} from '../../providers/user-data';
+import {DataProvider} from '../../providers/data-provider';
 
 
 @Component({
@@ -17,16 +17,18 @@ export class HomePage {
     offices: Office[];
     userId: string;
 
-    constructor(public navCtrl: NavController, public userData: UserData, public dataProvider: DataProvider) {}
+    constructor(public userData: UserData, public dataProvider: DataProvider) {}
 
     ionViewDidLoad() {
 
-        console.log('**did load**');
+        this.setData();
+    }
 
+
+    setData() {
         this.userData.getName().then(
             (value) => {
                 this.uName = value;
-                return true;
             },
             err => err
         );
@@ -34,7 +36,6 @@ export class HomePage {
         this.userData.getPictureUrl().then(
             (value) => {
                 this.pictureUrl = value;
-                return true;
             },
             err => err
         );
@@ -42,8 +43,6 @@ export class HomePage {
         this.userData.getUserId().then(
             (value) => {
                 this.userId = value;
-                console.log("controller Id", this.userId);
-                return true;
             },
             err => err
         );
@@ -51,14 +50,11 @@ export class HomePage {
         this.dataProvider.getOffices().then(
             (success) => {
                 this.offices = success;
-                return true;
             },
             err => err
         );
 
-        console.log('done');
     }
-
 
 
     leaveQueue(userId, office) {
@@ -67,13 +63,10 @@ export class HomePage {
 
         if (index > -1) {
 
-            office.queue.splice(index, 1);
-
-            office.joined = 0;
-
             this.dataProvider.leaveQueue(userId, office._id).then(
                 (success) => {
-                    return true;
+                    office.queue.splice(index, 1);
+                    office.joined = 0;
                 },
                 err => err
             );
@@ -84,17 +77,14 @@ export class HomePage {
 
     joinQueue(userId, office) {
 
-        office.joined = 1;
-
         this.dataProvider.joinQueue(userId, office._id).then(
             (success) => {
+                office.joined = 1;
                 office.queue.push(userId);
-                return true;
             },
             err => err
         );
 
     }
-
 
 }
