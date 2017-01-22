@@ -19,7 +19,7 @@
     </ion-card>
 
     <ion-card *ngFor='let office of offices'>
-        <ion-card-content class="align-center">
+        <ion-card-content class="align-center" [ngClass]="{'non-active': !office.active}" >
             <ion-card-title class="bold">
                 {{office.name}}
             </ion-card-title>
@@ -38,10 +38,13 @@
             <br/>
 
             <button *ngIf="office.miniQueue.indexOf(userId) == -1" color="secondary" ion-button item-right medium full
-                    (click)="joinQueue(userId, office)" [disabled]="!active">Join
+                    (click)="joinQueue(userId, office)" [hidden]="!office.active">Join
             </button>
             <button *ngIf="office.miniQueue.indexOf(userId) != -1" color="danger" ion-button item-right medium full
-                    (click)="leaveQueue(userId, office)" [disabled]="!active">Leave
+                    (click)="leaveQueue(userId, office)" [hidden]="!office.active">Leave
+            </button>
+            <button ion-button outline medium full [hidden]="office.active" color="default" [disabled]="!office.active">
+                Closed...
             </button>
 
         </ion-card-content>
