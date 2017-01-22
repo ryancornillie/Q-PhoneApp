@@ -41,6 +41,9 @@ export class FBAuthService {
         ).then(
             success => this.validateWithServer(success.access_token),
             error => error
+        ).then(
+            success => success,
+            error => error
         );
   }
 

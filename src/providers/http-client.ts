@@ -14,7 +14,7 @@ export class HttpClient {
     private baseUrl: String;
 
     constructor(private storage: Storage) {
-        this.baseUrl = 'http://35.20.60.69:8888';
+        this.baseUrl = 'http://35.20.108.4:8888';
     }
 
     /*createAuthorizationHeader(headers: Headers): Promise<any> {

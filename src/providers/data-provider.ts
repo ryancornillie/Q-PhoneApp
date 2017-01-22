@@ -28,8 +28,6 @@ export class DataProvider {
             },
             error => error
         );
-
-
     }
 
 
