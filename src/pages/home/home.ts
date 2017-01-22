@@ -4,8 +4,6 @@ import {Office} from '../../models/Office';
 
 import {UserData} from '../../providers/user-data';
 import {DataProvider} from '../../providers/data-provider';
-import {setDOM} from "@angular/platform-browser/src/dom/dom_adapter";
-
 
 @Component({
     selector: 'page-home',
