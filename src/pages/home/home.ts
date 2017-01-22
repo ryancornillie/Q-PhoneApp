@@ -1,6 +1,9 @@
 import {Component} from '@angular/core';
 
+import {Office} from '../../models/Office';
+
 import {UserData} from '../../providers/user-data';
+import {DataProvider} from '../../providers/data-provider';
 
 
 @Component({
@@ -9,15 +12,18 @@ import {UserData} from '../../providers/user-data';
 })
 export class HomePage {
 
-    uName: String;
-    pictureUrl: String;
+    uName: string;
+    pictureUrl: string;
+    offices: Office[];
 
-    constructor(public userData: UserData) {
+    constructor(public userData: UserData, public dataProvider: DataProvider) {
     }
 
     ionViewDidLoad() {
 
+
         this.setData();
+
     }
 
     setData() {
@@ -35,5 +41,6 @@ export class HomePage {
             err => err
         );
     }
+
 
 }

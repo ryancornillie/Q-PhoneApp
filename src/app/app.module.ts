@@ -11,6 +11,7 @@ import { Storage } from '@ionic/storage';
 import {FBAuthService} from '../providers/fb-auth-service';
 import {HttpClient} from '../providers/http-client';
 import {UserData} from '../providers/user-data';
+import {DataProvider} from "../providers/data-provider";
 
 
 @NgModule({
@@ -34,7 +35,7 @@ import {UserData} from '../providers/user-data';
     TabsPage,
     LoginPage,
   ],
-  providers: [UserData, Storage, FBAuthService, HttpClient, {provide: ErrorHandler, useClass: IonicErrorHandler}]
+  providers: [UserData, Storage, FBAuthService, HttpClient, DataProvider, {provide: ErrorHandler, useClass: IonicErrorHandler}]
 
 })
 export class AppModule {
